@@ -1,9 +1,10 @@
-# Setup Instructions for Gemini API Script
+# Setup Instructions for Pho-tographer
 
 ## Prerequisites
 
 1. **Node.js** (v16 or higher)
 2. **Google Gemini API Key** - Get one from [Google AI Studio](https://aistudio.google.com/app/apikey)
+3. **Google Places API Key** (Optional) - For finding nearby restaurants. Get from [Google Cloud Console](https://console.cloud.google.com/apis/library/places-backend.googleapis.com)
 
 ## Installation
 
@@ -14,10 +15,33 @@ npm install
 
 2. Create a `.env` file in the root directory:
 ```bash
-GEMINI_API_KEY=your_api_key_here
+# Required - For food identification
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Optional - For finding nearby restaurants (will fallback to Google Maps search if not provided)
+GOOGLE_PLACES_API_KEY=your_places_api_key_here
 ```
 
-Replace `your_api_key_here` with your actual Gemini API key.
+Replace the values with your actual API keys.
+
+## Running the App
+
+### Start the server:
+```bash
+npm start
+# or
+npm run dev
+```
+
+### Start the frontend (development):
+```bash
+npm run dev:frontend
+```
+
+### Start both (concurrently):
+```bash
+npm run dev:all
+```
 
 ## Usage
 
@@ -82,4 +106,33 @@ If the image doesn't contain food, the script returns:
   }
 }
 ```
+
+## Features
+
+### 🍜 Food Identification
+- Identifies Vietnamese food, drinks, desserts, and snacks
+- Returns detailed information including:
+  - Name (Vietnamese + translated)
+  - IPA pronunciation guide
+  - Ingredients, calories, allergens
+  - Cultural notes
+  - Category-specific info (spice level, sweetness, temperature, etc.)
+
+### 📍 Find Nearby Restaurants
+- Locates restaurants/vendors selling the identified dish
+- Uses device geolocation + Google Places API
+- Fallback: Opens Google Maps search if Places API unavailable
+- Shows:
+  - Restaurant name & address
+  - Ratings & reviews
+  - Open/closed status
+  - Directions link
+
+### 🎆 Celebration Effects
+- Fireworks animation when food is successfully identified
+- Emoji confetti and sparkles
+
+### 🌐 Multi-language Support
+- Vietnamese, English, French, Chinese
+- AI responses are translated to user's selected language
 

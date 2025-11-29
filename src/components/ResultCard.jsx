@@ -2,11 +2,24 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getTranslation } from '../translations';
 import LanguageSwitcher from './LanguageSwitcher';
+import Fireworks from './Fireworks';
 
 function ResultCard({ result, imagePreview, onScanAnother }) {
   const { language } = useLanguage();
   const t = (key) => getTranslation(language, key);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(false);
+  
+  // Trigger fireworks when result is shown
+  useEffect(() => {
+    if (result) {
+      // Small delay to ensure smooth animation start
+      const timer = setTimeout(() => {
+        setShowFireworks(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [result]);
   
   // Cleanup: stop speech when component unmounts
   useEffect(() => {
@@ -19,36 +32,30 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
   
   if (!result) return null;
 
-  // Map language codes to SpeechSynthesis language codes
-  const getSpeechLanguage = () => {
-    switch (language) {
-      case 'vi':
-        return 'vi-VN';
-      case 'en':
-        return 'en-US';
-      case 'fr':
-        return 'fr-FR';
-      case 'zh':
-        return 'zh-CN';
-      default:
-        return 'en-US';
-    }
+  // Always use Vietnamese for speech synthesis (to hear Vietnamese pronunciation)
+  const getSpeechLanguage = () => 'vi-VN';
+
+  // Always speak the Vietnamese name (user wants to learn Vietnamese pronunciation)
+  const getFoodNameToSpeak = () => {
+    return result.name?.vietnamese || 'Món ăn';
   };
 
-  // Get the food name to speak based on current language
-  const getFoodNameToSpeak = () => {
-    switch (language) {
-      case 'vi':
-        return result.name?.vietnamese || result.name?.english || 'Món ăn';
-      case 'en':
-        return result.name?.english || result.name?.vietnamese || 'Vietnamese Dish';
-      case 'fr':
-        return result.name?.english || result.name?.vietnamese || 'Plat Vietnamien';
-      case 'zh':
-        return result.name?.english || result.name?.vietnamese || '越南菜';
-      default:
-        return result.name?.english || 'Food';
+  // Get pronunciation display - handle both old string format and new object format
+  const getPronunciationDisplay = () => {
+    const pronunciation = result.name?.pronunciation;
+    if (!pronunciation) return null;
+    
+    // Handle new object format
+    if (typeof pronunciation === 'object') {
+      return pronunciation;
     }
+    
+    // Handle old string format (backwards compatibility)
+    return {
+      simplified: pronunciation,
+      ipa: null,
+      toneGuide: null
+    };
   };
 
   const speakFoodName = () => {
@@ -119,14 +126,83 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
     }
   };
 
+  // Get category display
+  const getCategoryDisplay = (category) => {
+    switch (category?.toLowerCase()) {
+      case 'food':
+        return t('categoryFood');
+      case 'drink':
+        return t('categoryDrink');
+      case 'dessert':
+        return t('categoryDessert');
+      case 'snack':
+        return t('categorySnack');
+      default:
+        return t('categoryFood');
+    }
+  };
+
+  // Get temperature display
+  const getTemperatureDisplay = (temp) => {
+    switch (temp?.toLowerCase()) {
+      case 'hot':
+        return t('tempHot');
+      case 'cold':
+        return t('tempCold');
+      case 'iced':
+        return t('tempIced');
+      case 'room':
+        return t('tempRoom');
+      default:
+        return temp;
+    }
+  };
+
+  // Get sweetness display
+  const getSweetnessDisplay = (level) => {
+    switch (level?.toLowerCase()) {
+      case 'none':
+        return t('sweetnessNone');
+      case 'light':
+        return t('sweetnessLight');
+      case 'medium':
+        return t('sweetnessMedium');
+      case 'sweet':
+        return t('sweetnessSweet');
+      case 'very_sweet':
+        return t('sweetnessVerySweet');
+      default:
+        return level;
+    }
+  };
+
+  // Get caffeine display
+  const getCaffeineDisplay = (level) => {
+    switch (level?.toLowerCase()) {
+      case 'none':
+        return t('caffeineNone');
+      case 'low':
+        return t('caffeineLow');
+      case 'medium':
+        return t('caffeineMedium');
+      case 'high':
+        return t('caffeineHigh');
+      default:
+        return level;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#FFF8F0] py-8 px-4 relative">
+    <div className="min-h-screen bg-[#FFF8F0] py-8 px-4 relative overflow-hidden">
+      {/* Fireworks Animation */}
+      <Fireworks trigger={showFireworks} />
+      
       {/* Language Switcher */}
       <div className="absolute top-4 right-4 z-10">
         <LanguageSwitcher />
       </div>
       
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto animate-slide-up">
         {/* Hero Image */}
         {imagePreview && (
           <div className="mb-6">
@@ -140,6 +216,15 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
 
         {/* Result Card */}
         <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+          {/* Category Badge */}
+          {result.category && (
+            <div className="mb-4">
+              <span className="inline-block bg-[#E23744]/10 text-[#E23744] px-3 py-1 rounded-full text-sm font-medium">
+                {getCategoryDisplay(result.category)}
+              </span>
+            </div>
+          )}
+
           {/* Name Section */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-2">
@@ -171,10 +256,25 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
             <h2 className="text-xl md:text-2xl text-gray-700 mb-2">
               {result.name?.english || 'Vietnamese Dish'}
             </h2>
-            {result.name?.pronunciation && (
-              <p className="text-gray-500 italic">
-                {t('pronunciation')}: {result.name.pronunciation}
-              </p>
+            {/* Pronunciation Section - Vietnamese only */}
+            {getPronunciationDisplay() && (
+              <div className="mt-2 space-y-1">
+                {getPronunciationDisplay().ipa && (
+                  <p className="text-gray-600 font-mono text-sm">
+                    <span className="text-gray-400">IPA:</span> {getPronunciationDisplay().ipa}
+                  </p>
+                )}
+                {getPronunciationDisplay().simplified && (
+                  <p className="text-gray-500 italic">
+                    {t('pronunciation')}: <span className="font-medium">{getPronunciationDisplay().simplified}</span>
+                  </p>
+                )}
+                {getPronunciationDisplay().toneGuide && (
+                  <p className="text-xs text-gray-400">
+                    🎵 {getPronunciationDisplay().toneGuide}
+                  </p>
+                )}
+              </div>
             )}
           </div>
 
@@ -206,9 +306,9 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
             </div>
           )}
 
-          {/* Stats Grid */}
+          {/* Stats Grid - Dynamic based on category */}
           <div className="grid grid-cols-2 gap-4 mb-6">
-            {/* Calories */}
+            {/* Calories - All categories */}
             {result.calories && (
               <div className="bg-[#FFF8F0] p-4 rounded-xl">
                 <div className="text-sm text-gray-500 mb-1">{t('calories')}</div>
@@ -223,13 +323,88 @@ function ResultCard({ result, imagePreview, onScanAnother }) {
               </div>
             )}
 
-            {/* Spice Level */}
-            {result.spiceLevel && (
+            {/* Spice Level - Food & Snack only */}
+            {result.spiceLevel && (result.category === 'food' || result.category === 'snack') && (
               <div className="bg-[#FFF8F0] p-4 rounded-xl">
                 <div className="text-sm text-gray-500 mb-1">{t('spiceLevel')}</div>
                 <div className={`text-sm font-semibold px-3 py-1 rounded-full inline-block ${getSpiceLevelColor(result.spiceLevel)}`}>
                   {getSpiceLevelText(result.spiceLevel)}
                 </div>
+              </div>
+            )}
+
+            {/* Temperature - Drink only */}
+            {result.temperature && result.category === 'drink' && (
+              <div className="bg-[#FFF8F0] p-4 rounded-xl">
+                <div className="text-sm text-gray-500 mb-1">{t('temperature')}</div>
+                <div className="text-lg font-semibold text-gray-700">
+                  {getTemperatureDisplay(result.temperature)}
+                </div>
+              </div>
+            )}
+
+            {/* Sweetness Level - Drink & Dessert */}
+            {result.sweetnessLevel && (result.category === 'drink' || result.category === 'dessert') && (
+              <div className="bg-[#FFF8F0] p-4 rounded-xl">
+                <div className="text-sm text-gray-500 mb-1">{t('sweetnessLevel')}</div>
+                <div className="text-lg font-semibold text-gray-700">
+                  {getSweetnessDisplay(result.sweetnessLevel)}
+                </div>
+              </div>
+            )}
+
+            {/* Caffeine - Drink only */}
+            {result.caffeineContent && result.category === 'drink' && (
+              <div className="bg-[#FFF8F0] p-4 rounded-xl">
+                <div className="text-sm text-gray-500 mb-1">{t('caffeineContent')}</div>
+                <div className="text-lg font-semibold text-gray-700">
+                  ☕ {getCaffeineDisplay(result.caffeineContent)}
+                </div>
+              </div>
+            )}
+
+            {/* Serving Size - Drink only */}
+            {result.servingSize && result.category === 'drink' && (
+              <div className="bg-[#FFF8F0] p-4 rounded-xl">
+                <div className="text-sm text-gray-500 mb-1">{t('servingSize')}</div>
+                <div className="text-lg font-semibold text-gray-700">
+                  {result.servingSize}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Additional Info - Category specific */}
+          <div className="space-y-3 mb-6">
+            {/* Texture - Dessert & Snack */}
+            {result.texture && (result.category === 'dessert' || result.category === 'snack') && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-sm font-medium text-gray-500">{t('texture')}:</span>
+                <span>{result.texture}</span>
+              </div>
+            )}
+
+            {/* Best Served - Dessert */}
+            {result.bestServed && result.category === 'dessert' && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-sm font-medium text-gray-500">{t('bestServed')}:</span>
+                <span>{result.bestServed}</span>
+              </div>
+            )}
+
+            {/* Serving Style - Food */}
+            {result.servingStyle && result.category === 'food' && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-sm font-medium text-gray-500">{t('servingStyle')}:</span>
+                <span>{result.servingStyle}</span>
+              </div>
+            )}
+
+            {/* Eating Occasion - Snack */}
+            {result.eatingOccasion && result.category === 'snack' && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-sm font-medium text-gray-500">{t('eatingOccasion')}:</span>
+                <span>{result.eatingOccasion}</span>
               </div>
             )}
           </div>

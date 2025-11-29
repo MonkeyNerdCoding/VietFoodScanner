@@ -1,140 +1,196 @@
-# 📋 Product Requirements Document (PRD)
-## **Pho-tographer: Vietnamese Street Food Decoder**
+# 🍜 Pho-tographer: Vietnamese Street Food Decoder
 
----
+A mobile-first web application that allows users to photograph Vietnamese street food and instantly receive detailed information about the dish, including its name, ingredients, calorie estimates, cultural context, and pronunciation guide.
 
-## 1. Overview
+![Vietnamese Food Scanner](https://img.shields.io/badge/Vietnamese-Food%20Scanner-E23744?style=for-the-badge)
+![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react)
+![Gemini AI](https://img.shields.io/badge/Gemini-AI-4285F4?style=for-the-badge&logo=google)
 
-### 1.1 Product Summary
-Pho-tographer is a mobile-first web application that allows users to photograph Vietnamese street food and instantly receive detailed information about the dish, including its name, ingredients, calorie estimates, and cultural context.
+## ✨ Features
 
-### 1.2 Problem Statement
-Tourists and food enthusiasts visiting Vietnam often encounter unfamiliar street food dishes but face language barriers and lack of accessible information. They want to know what they're eating, understand the ingredients (especially for dietary restrictions or allergies), and appreciate the cultural significance of the dish.
+### 🎯 Core Features
+- **📸 Image Capture**: Take photos with camera or upload from gallery
+- **🤖 AI-Powered Recognition**: Uses Google Gemini 2.5 Flash for accurate food identification
+- **🌐 Multi-language Support**: Vietnamese, English, French, Chinese
+- **📱 Mobile-First Design**: Optimized for mobile devices with responsive UI
+- **🎆 Celebration Effects**: Fireworks animation when food is successfully identified
 
-### 1.3 Solution
-A simple "point and shoot" web app powered by AI (Google Gemini) that identifies Vietnamese street food from photos and returns comprehensive, easy-to-understand information in the user's preferred language.
+### 📋 Food Information Display
+- **Name**: Vietnamese name with proper diacritics + English translation
+- **Pronunciation**: IPA transcription with simplified phonetic guide
+- **Description**: Detailed description in your selected language
+- **Ingredients**: List of main ingredients
+- **Calories**: Estimated calorie count with range
+- **Allergens**: Common allergen warnings
+- **Cultural Notes**: Historical and cultural context
+- **Category-Specific Info**:
+  - **Food**: Spice level, serving style
+  - **Drink**: Temperature, sweetness level, caffeine content, serving size
+  - **Dessert**: Sweetness level, texture, best served
+  - **Snack**: Spice level, texture, eating occasion
 
-### 1.4 Target Users
-- **Primary:** International tourists visiting Vietnam
-- **Secondary:** Food bloggers, culinary students, Vietnamese cuisine enthusiasts, health-conscious diners
+### 🎨 User Experience
+- **Loading Animations**: Beautiful pho bowl animation during processing
+- **Error Handling**: Friendly error messages with retry options
+- **Speech Synthesis**: Hear Vietnamese pronunciation with one click
+- **Language Switcher**: Easy language selection with flag icons
 
----
+## 🚀 Quick Start
 
-## 2. Goals & Success Metrics
+### Prerequisites
+- **Node.js** (v16 or higher)
+- **npm** or **yarn**
+- **Google Gemini API Key** - Get one from [Google AI Studio](https://aistudio.google.com/app/apikey)
 
-### 2.1 Product Goals
-| Goal | Description |
-|------|-------------|
-| **Accuracy** | Correctly identify at least 85% of common Vietnamese street food dishes |
-| **Speed** | Return results within 5 seconds of image submission |
-| **Usability** | Users can complete the core flow (photo → result) in under 10 seconds |
-| **Engagement** | Users scan at least 2 dishes per session on average |
+### Installation
 
-### 2.2 Key Performance Indicators (KPIs)
-- Identification accuracy rate
-- Average response time
-- Session duration
-- Return user rate
-- Number of scans per session
-
----
-
-## 3. User Stories & Requirements
-
-### 3.1 User Stories
-
-**Epic 1: Food Identification**
-| ID | User Story | Priority |
-|----|------------|----------|
-| US-01 | As a tourist, I want to take a photo of a dish so that I can learn what it is | P0 (Must Have) |
-| US-02 | As a user, I want to upload an existing photo from my gallery so that I don't have to take a new picture | P0 |
-| US-03 | As a user, I want to see a loading indicator so that I know the app is processing | P0 |
-| US-04 | As a user, I want to receive an error message if my photo cannot be identified so that I know to try again | P0 |
-
-**Epic 2: Food Information Display**
-| ID | User Story | Priority |
-|----|------------|----------|
-| US-05 | As a health-conscious user, I want to see calorie estimates so that I can track my intake | P0 |
-| US-06 | As someone with allergies, I want to see the main ingredients so that I can avoid allergens | P0 |
-| US-07 | As a food enthusiast, I want to learn about the dish's origin and cultural context so that I can appreciate it more | P1 (Should Have) |
-| US-08 | As a user, I want to see the Vietnamese name with pronunciation guide so that I can order it myself | P1 |
-
-**Epic 3: User Experience Enhancements**
-| ID | User Story | Priority |
-|----|------------|----------|
-| US-09 | As a returning user, I want to see my scan history so that I can reference dishes I've tried | P2 (Nice to Have) |
-| US-10 | As a social user, I want to share the result card on social media so that I can show my friends | P2 |
-
-### 3.2 Functional Requirements
-
-**FR-01: Image Input**
-- Accept image upload from device gallery
-- Accept camera capture (mobile browsers)
-- Support JPEG, PNG, WebP formats
-- Maximum file size: 10MB
-- Auto-compress images larger than 2MB before sending
-
-**FR-02: AI Processing**
-- Convert image to Base64 encoding
-- Send to backend API endpoint
-- Backend calls Gemini API with structured prompt
-- Parse JSON response from AI
-- Handle malformed responses gracefully
-
-**FR-03: Result Display**
-- Display dish name (Vietnamese + English)
-- Show pronunciation guide (phonetic)
-- List main ingredients (with icons)
-- Display calorie estimate (range)
-- Show brief cultural/historical context
-- Indicate spice level (mild/medium/hot)
-- Note common allergens present
-
-**FR-04: Error Handling**
-- "Not food" detection → friendly message + retry prompt
-- Network timeout → retry option
-- Server error → fallback to cached data if available
-- Invalid image format → format requirements message
-
-### 3.3 Non-Functional Requirements
-
-| Requirement | Specification |
-|-------------|---------------|
-| **Performance** | API response < 5 seconds (95th percentile) |
-| **Availability** | 99% uptime during demo/presentation |
-| **Scalability** | Handle 10 concurrent users (MVP scope) |
-| **Security** | API key stored server-side only, HTTPS enforced |
-| **Compatibility** | Chrome, Safari, Firefox (latest 2 versions) |
-| **Mobile Responsive** | Optimized for screens 320px - 768px width |
-
----
-
-## 4. Technical Architecture
-
-### 4.1 System Overview
-
-```
-┌─────────────────┐     HTTP/JSON      ┌─────────────────┐     API Call      ┌─────────────────┐
-│                 │ ────────────────►  │                 │ ────────────────► │                 │
-│   React Client  │                    │  Node.js Server │                   │   Gemini API    │
-│   (Vite + TW)   │ ◄────────────────  │   (Express)     │ ◄──────────────── │   (Flash 2.0)   │
-│                 │     JSON Result    │                 │    JSON Response  │                 │
-└─────────────────┘                    └─────────────────┘                   └─────────────────┘
+1. **Clone the repository** (or download the project)
+```bash
+git clone <repository-url>
+cd VietFoodScanner
 ```
 
-### 4.2 Tech Stack
+2. **Install dependencies**
+```bash
+npm install
+```
 
-| Layer | Technology | Justification |
-|-------|------------|---------------|
-| **Frontend** | React 18 + Vite | Fast development, hot reload, modern tooling |
-| **Styling** | TailwindCSS | Rapid UI development, mobile-first utilities |
-| **Backend** | Node.js + Express | JavaScript consistency, easy Gemini SDK integration |
-| **AI Model** | Google Gemini Flash 2.0 | Fast inference, multimodal (vision), cost-effective |
-| **Deployment** | Localhost + ngrok (MVP) | Quick setup for hackathon demo |
+3. **Create `.env` file**
+Create a `.env` file in the root directory:
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-### 4.3 API Specification
+4. **Run the application**
 
-**Endpoint:** `POST /api/identify`
+#### Option 1: Run separately (Recommended for development)
+
+**Terminal 1 - Backend Server:**
+```bash
+npm run dev
+```
+
+**Terminal 2 - Frontend Development Server:**
+```bash
+npm run dev:frontend
+```
+
+#### Option 2: Run both together
+```bash
+npm run dev:all
+```
+
+### Access the Application
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:3001
+- **Health Check**: http://localhost:3001/api/health
+
+## 📁 Project Structure
+
+```
+VietFoodScanner/
+├── src/
+│   ├── components/          # React components
+│   │   ├── HomeScreen.jsx   # Landing page
+│   │   ├── CameraScreen.jsx # Camera/upload interface
+│   │   ├── LoadingScreen.jsx # Loading animation
+│   │   ├── ResultCard.jsx   # Food information display
+│   │   ├── ErrorMessage.jsx # Error handling
+│   │   ├── Fireworks.jsx    # Celebration animation
+│   │   └── LanguageSwitcher.jsx # Language selector
+│   ├── contexts/
+│   │   └── LanguageContext.jsx # Language state management
+│   ├── translations/
+│   │   └── index.js         # Multi-language translations
+│   ├── App.jsx              # Main app component
+│   ├── main.jsx             # Entry point
+│   └── index.css            # Global styles & animations
+├── server.js                 # Express backend server
+├── gemini-api.js            # CLI script for testing
+├── gemini-api-utils.js      # Gemini API utility functions
+├── vite.config.js           # Vite configuration
+├── tailwind.config.js       # Tailwind CSS configuration
+├── package.json             # Dependencies
+└── .env                     # Environment variables (create this)
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18** - UI framework
+- **Vite** - Build tool and dev server
+- **TailwindCSS** - Utility-first CSS framework
+- **React Context API** - State management
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express** - Web framework
+- **Multer** - File upload handling
+- **CORS** - Cross-origin resource sharing
+
+### AI & Services
+- **Google Gemini 2.5 Flash** - Vision AI model
+- **@google/generative-ai** - Official Gemini SDK
+
+## 📖 Usage
+
+### Web Application
+
+1. Open http://localhost:3000 in your browser
+2. Click "📸 Scan Food" button
+3. Take a photo or select from gallery
+4. Wait for AI analysis (usually 3-5 seconds)
+5. View detailed food information
+6. Click speaker icon to hear Vietnamese pronunciation
+7. Switch language using the language selector
+
+### CLI Script
+
+You can also test the API directly using the CLI script:
+
+```bash
+# Basic usage
+node gemini-api.js ./image/pho.jpg
+
+# With language option
+node gemini-api.js ./image/banh-mi.jpg en
+node gemini-api.js ./image/com-tam.jpg fr
+```
+
+## 🎯 Supported Categories
+
+The app recognizes and provides specific information for:
+
+- **🍜 Food**: Main dishes, soups, noodles (Phở, Bún, Cơm Tấm, Bánh Cuốn...)
+- **🧋 Drink**: Beverages (Cà Phê, Trà, Sinh Tố, Nước Mía, Chè...)
+- **🍮 Dessert**: Sweet treats, cakes, pastries (Bánh Flan, Bánh Bò, Bánh Chuối...)
+- **🥟 Snack**: Street snacks (Bánh Tráng Trộn, Bột Chiên, Xôi...)
+
+## 🌐 Supported Languages
+
+- 🇻🇳 **Vietnamese** (Tiếng Việt)
+- 🇬🇧 **English**
+- 🇫🇷 **French** (Français)
+- 🇨🇳 **Chinese** (中文)
+
+All AI responses are automatically translated to your selected language, while the Vietnamese name always remains in Vietnamese with proper diacritics.
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Required
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### API Endpoints
+
+#### POST `/api/identify`
+Identify food from an image.
 
 **Request:**
 ```json
@@ -144,197 +200,106 @@ A simple "point and shoot" web app powered by AI (Google Gemini) that identifies
 }
 ```
 
-**Success Response (200):**
+**Response:**
 ```json
 {
   "success": true,
   "data": {
+    "category": "food",
     "name": {
       "vietnamese": "Phở Bò",
       "english": "Beef Pho",
-      "pronunciation": "fuh baw"
+      "pronunciation": {
+        "ipa": "/fəː˧˩˧ ɓɔ˨˩/",
+        "simplified": "fuh baw",
+        "toneGuide": "falling tone on phở"
+      }
     },
-    "description": "A traditional Vietnamese soup consisting of broth, rice noodles, herbs, and beef.",
-    "ingredients": ["rice noodles", "beef broth", "beef slices", "bean sprouts", "basil", "lime"],
-    "calories": {
-      "estimate": 450,
-      "range": "400-500"
-    },
-    "allergens": ["gluten (soy sauce)", "beef"],
+    "description": "...",
+    "ingredients": [...],
+    "calories": { "estimate": 450, "range": "400-500" },
+    "allergens": [...],
     "spiceLevel": "mild",
-    "culturalNote": "Originating from Northern Vietnam in the early 20th century, Phở has become Vietnam's national dish.",
+    "culturalNote": "...",
     "confidence": 0.94
   }
 }
 ```
 
-**Error Response (400/500):**
-```json
-{
-  "success": false,
-  "error": {
-    "code": "NOT_FOOD",
-    "message": "The image doesn't appear to contain food. Please try another photo."
-  }
-}
+#### GET `/api/health`
+Health check endpoint.
+
+## 🐛 Troubleshooting
+
+### Error: "GEMINI_API_KEY not set"
+- ✅ Check that `.env` file exists in the root directory
+- ✅ Ensure the API key is valid and not expired
+- ✅ Restart the server after creating/modifying `.env`
+
+### CORS Errors
+- ✅ Ensure backend is running on port 3001
+- ✅ Check proxy configuration in `vite.config.js`
+- ✅ Verify frontend is accessing via http://localhost:3000
+
+### Camera Not Working
+- ✅ Grant camera permissions in browser
+- ✅ Use HTTPS or localhost (required for camera access)
+- ✅ Use "Select from Library" feature as alternative
+- ✅ Check browser compatibility (Chrome, Safari, Firefox recommended)
+
+### API Rate Limits
+- ✅ If you see 429 errors, you may have exceeded free tier limits
+- ✅ Wait a few minutes before retrying
+- ✅ Consider upgrading your Google Cloud plan
+
+### Image Upload Fails
+- ✅ Ensure image is under 10MB
+- ✅ Supported formats: JPEG, PNG, WebP
+- ✅ Check network connection
+
+## 📝 Development
+
+### Available Scripts
+
+```bash
+# Start backend server
+npm run dev
+
+# Start frontend dev server
+npm run dev:frontend
+
+# Start both concurrently
+npm run dev:all
+
+# Test CLI script
+npm test
+
+# Production build (if configured)
+npm run build
 ```
+
+### Adding New Languages
+
+1. Open `src/translations/index.js`
+2. Add a new language object with all required keys
+3. Update `src/contexts/LanguageContext.jsx` to include the new language
+4. Test the new language in the UI
+
+## 📄 License
+
+MIT License - feel free to use this project for learning or commercial purposes.
+
+## 🙏 Acknowledgments
+
+- **Google Gemini** - For the powerful vision AI model
+- **Vietnamese Food Culture** - The inspiration for this project
+- **Open Source Community** - For amazing tools and libraries
+
+## 📧 Support
+
+For issues, questions, or contributions, please open an issue on the repository.
 
 ---
 
-## 5. User Interface Design
+**Made with ❤️ for Vietnamese food lovers around the world** 🇻🇳
 
-### 5.1 Screen Flow
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│              │     │              │     │              │     │              │
-│    Home      │ ──► │   Camera/    │ ──► │   Loading    │ ──► │   Result     │
-│   Screen     │     │   Upload     │     │   Screen     │     │    Card      │
-│              │     │              │     │              │     │              │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-                                                                      │
-                                                                      ▼
-                                                               ┌──────────────┐
-                                                               │   Scan       │
-                                                               │   Another    │
-                                                               └──────────────┘
-```
-
-### 5.2 Wireframes Description
-
-**Home Screen**
-- App logo and tagline centered
-- Large "Scan Food" CTA button
-- Brief instruction text: "Point your camera at any Vietnamese dish"
-- Optional: carousel of sample dishes
-
-**Camera/Upload Screen**
-- Full-screen camera viewfinder (mobile)
-- Capture button at bottom center
-- Gallery upload icon at bottom left
-- Flash toggle at top right
-
-**Loading Screen**
-- Animated pho bowl with steam rising
-- Text: "Analyzing your dish..." with typing animation
-- Estimated wait time indicator
-
-**Result Card**
-- Hero image (user's photo) at top
-- Dish name in large typography (Vietnamese + English)
-- Pronunciation with speaker icon (future: audio)
-- Horizontal divider
-- Ingredients grid with icons
-- Calorie badge
-- Allergen warnings (highlighted)
-- Cultural note in card footer
-- "Scan Another" button
-
-### 5.3 Design Guidelines
-
-| Element | Specification |
-|---------|---------------|
-| **Primary Color** | #E23744 (Pho red/chili) |
-| **Secondary Color** | #2D5A27 (Herb green) |
-| **Background** | #FFF8F0 (Warm cream) |
-| **Font - Headings** | Playfair Display |
-| **Font - Body** | Inter |
-| **Border Radius** | 12px (cards), 24px (buttons) |
-| **Shadows** | Soft, warm-toned (rgba(226,55,68,0.1)) |
-
----
-
-## 6. Development Plan
-
-### 6.1 Team Structure (4 members)
-
-| Role | Responsibilities |
-|------|------------------|
-| **M1 - Backend Lead** | Server setup, Gemini integration, API endpoints, deployment |
-| **M2 - Frontend Logic** | Camera/upload component, API integration, state management |
-| **M3 - UI Developer** | Component styling, result card, responsive design |
-| **M4 - UX/Testing** | Loading states, error handling, test data preparation, QA |
-
-### 6.2 Development Timeline (4 Hours)
-
-| Hour | Phase | Deliverables |
-|------|-------|--------------|
-| **1** | Setup | Repo initialized, dev environment running, basic routing |
-| **2** | Core | Gemini API working, image upload functional, JSON parsing |
-| **3** | Integration | End-to-end flow complete, components connected |
-| **4** | Polish | UI refinement, error handling, demo preparation |
-
-### 6.3 Risk Mitigation
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| Gemini API rate limit | Medium | High | Implement response caching, prepare mock data fallback |
-| Network latency during demo | Medium | High | Pre-load test images, have offline mock mode ready |
-| Image too large error | High | Medium | Client-side compression before upload |
-| AI returns invalid JSON | Medium | Medium | Regex extraction, retry logic, fallback parser |
-| CORS issues | High | Low | Configure Express CORS middleware early |
-
----
-
-## 7. Future Roadmap (Post-MVP)
-
-### Phase 2 (v1.1)
-- Scan history with local storage
-- Multi-language support (Vietnamese, Chinese, Korean, Japanese)
-- Social sharing with branded card template
-
-### Phase 3 (v1.2)
-- Restaurant/vendor recommendations nearby
-- Price range estimates
-- User ratings and reviews
-
-### Phase 4 (v2.0)
-- Offline mode with on-device ML model
-- AR overlay showing dish information
-- Dietary preference filtering (vegetarian, halal, etc.)
-
----
-
-## 8. Appendix
-
-### 8.1 Sample Gemini Prompt
-
-```
-You are a Vietnamese street food expert. Analyze this image and return ONLY a JSON object with the following structure. Do not include any markdown formatting or explanation.
-
-{
-  "name": {
-    "vietnamese": "string",
-    "english": "string", 
-    "pronunciation": "string"
-  },
-  "description": "string (max 100 words)",
-  "ingredients": ["string"],
-  "calories": {
-    "estimate": number,
-    "range": "string"
-  },
-  "allergens": ["string"],
-  "spiceLevel": "mild" | "medium" | "hot",
-  "culturalNote": "string (max 50 words)",
-  "confidence": number (0-1)
-}
-
-If the image is not food, return: {"error": "NOT_FOOD"}
-```
-
-### 8.2 Test Dataset
-
-| Dish | Expected Result | Test Image Source |
-|------|-----------------|-------------------|
-| Phở Bò | Beef pho identification | Prepared high-quality image |
-| Bánh Mì | Banh mi sandwich identification | Prepared high-quality image |
-| Cà Phê Trứng | Egg coffee identification | Prepared high-quality image |
-| Non-food item | Error: NOT_FOOD | Random object image |
-
----
-
-**Document Version:** 1.0  
-**Last Updated:** November 2025  
-**Author:** Development Team  
-**Status:** Ready for Development

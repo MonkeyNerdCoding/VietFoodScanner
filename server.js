@@ -54,7 +54,7 @@ app.post('/api/identify', upload.single('image'), async (req, res) => {
 
     // Use base64 directly with utility function
     const language = req.body.language || 'en';
-    const result = await identifyFoodFromBase64(imageBase64, mimeType);
+    const result = await identifyFoodFromBase64(imageBase64, mimeType, language);
     
     if (result.success) {
       return res.status(200).json(result);

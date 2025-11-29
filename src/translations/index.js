@@ -39,7 +39,39 @@ export const translations = {
     allergens: '⚠️ Cảnh báo dị ứng',
     culturalNote: '📖 Ghi chú văn hóa',
     confidence: 'Độ tin cậy',
-    scanAnother: '🔄 Quét Món Ăn Khác',
+    scanAnother: '🔄 Quét Món Khác',
+    
+    // Categories
+    category: 'Loại',
+    categoryFood: '🍜 Món ăn',
+    categoryDrink: '🧋 Đồ uống',
+    categoryDessert: '🍮 Tráng miệng',
+    categorySnack: '🥟 Đồ ăn vặt',
+    
+    // Drink specific
+    temperature: 'Nhiệt độ',
+    tempHot: '🔥 Nóng',
+    tempCold: '❄️ Lạnh',
+    tempIced: '🧊 Đá',
+    tempRoom: '🌡️ Thường',
+    sweetnessLevel: 'Độ ngọt',
+    sweetnessNone: 'Không đường',
+    sweetnessLight: 'Ít ngọt',
+    sweetnessMedium: 'Vừa',
+    sweetnessSweet: 'Ngọt',
+    sweetnessVerySweet: 'Rất ngọt',
+    caffeineContent: 'Caffeine',
+    caffeineNone: 'Không có',
+    caffeineLow: 'Thấp',
+    caffeineMedium: 'Vừa',
+    caffeineHigh: 'Cao',
+    servingSize: 'Dung tích',
+    
+    // Dessert/Snack specific
+    texture: 'Kết cấu',
+    bestServed: 'Dùng kèm',
+    servingStyle: 'Cách dùng',
+    eatingOccasion: 'Thời điểm',
     
     // Error Message
     cannotIdentify: 'Không thể nhận diện',
@@ -91,7 +123,39 @@ export const translations = {
     allergens: '⚠️ Allergen Warning',
     culturalNote: '📖 Cultural Note',
     confidence: 'Confidence',
-    scanAnother: '🔄 Scan Another Dish',
+    scanAnother: '🔄 Scan Another',
+    
+    // Categories
+    category: 'Category',
+    categoryFood: '🍜 Food',
+    categoryDrink: '🧋 Drink',
+    categoryDessert: '🍮 Dessert',
+    categorySnack: '🥟 Snack',
+    
+    // Drink specific
+    temperature: 'Temperature',
+    tempHot: '🔥 Hot',
+    tempCold: '❄️ Cold',
+    tempIced: '🧊 Iced',
+    tempRoom: '🌡️ Room temp',
+    sweetnessLevel: 'Sweetness',
+    sweetnessNone: 'No sugar',
+    sweetnessLight: 'Light',
+    sweetnessMedium: 'Medium',
+    sweetnessSweet: 'Sweet',
+    sweetnessVerySweet: 'Very sweet',
+    caffeineContent: 'Caffeine',
+    caffeineNone: 'None',
+    caffeineLow: 'Low',
+    caffeineMedium: 'Medium',
+    caffeineHigh: 'High',
+    servingSize: 'Serving Size',
+    
+    // Dessert/Snack specific
+    texture: 'Texture',
+    bestServed: 'Best Served',
+    servingStyle: 'Serving Style',
+    eatingOccasion: 'Best Time',
     
     // Error Message
     cannotIdentify: 'Cannot Identify',
@@ -143,7 +207,39 @@ export const translations = {
     allergens: '⚠️ Avertissement Allergène',
     culturalNote: '📖 Note Culturelle',
     confidence: 'Confiance',
-    scanAnother: '🔄 Scanner un Autre Plat',
+    scanAnother: '🔄 Scanner un Autre',
+    
+    // Categories
+    category: 'Catégorie',
+    categoryFood: '🍜 Plat',
+    categoryDrink: '🧋 Boisson',
+    categoryDessert: '🍮 Dessert',
+    categorySnack: '🥟 Snack',
+    
+    // Drink specific
+    temperature: 'Température',
+    tempHot: '🔥 Chaud',
+    tempCold: '❄️ Froid',
+    tempIced: '🧊 Glacé',
+    tempRoom: '🌡️ Ambiant',
+    sweetnessLevel: 'Sucré',
+    sweetnessNone: 'Sans sucre',
+    sweetnessLight: 'Léger',
+    sweetnessMedium: 'Moyen',
+    sweetnessSweet: 'Sucré',
+    sweetnessVerySweet: 'Très sucré',
+    caffeineContent: 'Caféine',
+    caffeineNone: 'Aucune',
+    caffeineLow: 'Faible',
+    caffeineMedium: 'Moyen',
+    caffeineHigh: 'Élevé',
+    servingSize: 'Portion',
+    
+    // Dessert/Snack specific
+    texture: 'Texture',
+    bestServed: 'Meilleur servi',
+    servingStyle: 'Style de service',
+    eatingOccasion: 'Moment idéal',
     
     // Error Message
     cannotIdentify: 'Impossible d\'Identifier',
@@ -195,7 +291,39 @@ export const translations = {
     allergens: '⚠️ 过敏警告',
     culturalNote: '📖 文化注释',
     confidence: '置信度',
-    scanAnother: '🔄 扫描其他食物',
+    scanAnother: '🔄 扫描其他',
+    
+    // Categories
+    category: '类别',
+    categoryFood: '🍜 美食',
+    categoryDrink: '🧋 饮品',
+    categoryDessert: '🍮 甜点',
+    categorySnack: '🥟 小吃',
+    
+    // Drink specific
+    temperature: '温度',
+    tempHot: '🔥 热',
+    tempCold: '❄️ 冷',
+    tempIced: '🧊 冰',
+    tempRoom: '🌡️ 常温',
+    sweetnessLevel: '甜度',
+    sweetnessNone: '无糖',
+    sweetnessLight: '微甜',
+    sweetnessMedium: '半糖',
+    sweetnessSweet: '正常糖',
+    sweetnessVerySweet: '多糖',
+    caffeineContent: '咖啡因',
+    caffeineNone: '无',
+    caffeineLow: '低',
+    caffeineMedium: '中',
+    caffeineHigh: '高',
+    servingSize: '份量',
+    
+    // Dessert/Snack specific
+    texture: '口感',
+    bestServed: '最佳食用',
+    servingStyle: '食用方式',
+    eatingOccasion: '适合时间',
     
     // Error Message
     cannotIdentify: '无法识别',
