@@ -1,0 +1,24 @@
+{
+  "name": "vietfood-scanner",
+  "version": "1.0.0",
+  "description": "Vietnamese Street Food Scanner using Google Gemini API",
+  "main": "gemini-api.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node gemini-api.js",
+    "start": "node gemini-api.js"
+  },
+  "keywords": [
+    "gemini",
+    "ai",
+    "vietnamese-food",
+    "image-recognition"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5"
+  }
+}
+
